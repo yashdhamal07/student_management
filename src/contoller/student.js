@@ -6,7 +6,7 @@ const getStudents = async (req,res)=> {
        const q1 = await student.find()
         return res?.status(200).json(q1)
    } catch (err) {
-    return res?.status(400).json({message : err.message})
+    return res?.status(500).json({message : err.message})
    }
 }
 
@@ -15,7 +15,7 @@ const getStudent = async (req,res)=> {
         const q1 = await student.findById(req.params.id)
         return res?.status(200).json(q1);
     } catch (err) {
-        return res?.status(400).json({message : err.message})
+        return res?.status(500).json({message : err.message})
     }
 }
 
@@ -40,7 +40,7 @@ const updateStudent = async (req,res)=> {
         await student.updateOne({_id : req.params.id},userdata);
         return res?.status(200).json("Student Updated Successfully..!!")
     } catch (err) {
-        return res?.status(409).json({message : err.message})
+        return res?.status(500).json({message : err.message})
     }
 }
 
@@ -49,7 +49,7 @@ const deleteStudent = async (req,res)=> {
         const q1 = await student.deleteOne({_id : req.params.id})
         return res?.status(200).json("Student Deleted Successfully..!!")
     } catch (err) {
-        return res?.status(409).json({message : err.message})
+        return res?.status(500).json({message : err.message})
     }
 }
 

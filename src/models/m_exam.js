@@ -3,18 +3,23 @@ const mongoose = require("mongoose")
 
 const examSchema = new mongoose.Schema({
 
+  exam_title : {
+    type : String,
+    required : true
+  },
   subject_id: {
     type: mongoose.Schema.Types.ObjectId,
+    // type: String,
     required: true,
-  },
-  student_id : {
-    type : mongoose.Schema.Types.ObjectId,
-    required : true
   },
  exam_date : {
     type: Date,
     default : Date.now,
     required: true,
+  },
+  total_marks : {
+    type : String,
+    required : true
   },
   status: {
     type: Number,
@@ -30,18 +35,15 @@ const examSchema = new mongoose.Schema({
     default: Date.now,
   },
   entry_by: {
-    // type: mongoose.Schema.Types.ObjectId,
-    type : String,
+    type: mongoose.Schema.Types.ObjectId,
+    // type : String,
     required: true,
   },
   update_by: {
-    // type: mongoose.Schema.Types.ObjectId,
-    type : String,
+    type: mongoose.Schema.Types.ObjectId,
+    // type : String,
   },
-//   role: {
-//     type: Number,
-//     required: true,
-//   },
+
 });
 
 const exam = new mongoose.model("exam", examSchema);

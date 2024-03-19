@@ -7,21 +7,9 @@ const studentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  enrollment_no : {
+  roll_no: {
     type : String,
     required : true
-  },
-  contact_no: {
-    type: String,
-    required: true,
-  },
-  address: {
-    type: String,
-    required: true,
-  },
-  gender: {
-    type: String,
-    required: true,
   },
   email_id: {
     type: String,
@@ -41,13 +29,13 @@ const studentSchema = new mongoose.Schema({
     default: Date.now,
   },
   entry_by: {
-    // type: mongoose.Schema.Types.ObjectId,
-    type : String,
+    type: mongoose.Schema.Types.ObjectId,
+    // type : String,
     required: true,
   },
   update_by: {
-    // type: mongoose.Schema.Types.ObjectId,
-    type : String,
+    type: mongoose.Schema.Types.ObjectId,
+    // type : String,
   },
   role: {
     type: Number,
