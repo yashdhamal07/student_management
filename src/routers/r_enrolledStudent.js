@@ -7,7 +7,7 @@ const {
   insertEnrolledStudent,
   updateEnrolledStudent,
   deleteEnrolledStudent,
-} = require("../contoller/enrolledStudent.js");
+} = require("../controller/enrolledStudent.js");
 
 const isValidate = [
   body("student_id").notEmpty().withMessage("Please Enter Student Id"),

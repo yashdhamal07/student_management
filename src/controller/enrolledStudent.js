@@ -1,7 +1,7 @@
 const { ObjectId } = require("mongodb");
 const enrolledStudent = require("../models/m_enrolledStudent");
-// const { FetchUserId, FetchUserRole } = require("./decode_token");
 
+// for get all the enrolled student details
 const getEnrolledStudents = async (req, res) => {
   try {
     const q1 = await enrolledStudent.aggregate([
@@ -56,6 +56,7 @@ const getEnrolledStudents = async (req, res) => {
   }
 };
 
+// for get enolled student by Id function
 const getEnrolledStudent = async (req, res) => {
   try {
     const Id = req.params.id;
@@ -114,31 +115,30 @@ const getEnrolledStudent = async (req, res) => {
   }
 };
 
+// for insert enolled student function
 const insertEnrolledStudent = async (req, res) => {
   try {
     const userdata = new enrolledStudent(req?.body);
     await userdata.save();
-    userdata.status = req?.body?.status || 1;
-    // userdata.entry_by = FetchUserId(req?.headers["authorization"]);
-    // userdata.role = FetchUserRole(req?.headers["authorization"]);
     return res?.status(200).json("Student Enrolled Successfully..!!");
   } catch (err) {
     return res?.status(409).json({ message: err.message });
   }
 };
 
+// for update enrolled  student details function
 const updateEnrolledStudent = async (req, res) => {
   try {
     const userdata = req?.body;
-    // userdata.update_by = FetchUserId(req?.headers["authorization"]);
-    userdata.update_date = Date.now();
     await enrolledStudent.updateOne({ _id: req.params.id }, userdata);
-    return res?.status(200).json("Student Enrolled Successfully..!!");
+    return res?.status(200).json("Student Enrolled Details Updated Successfully..!!");
   } catch (err) {
     return res?.status(500).json({ message: err.message });
   }
 };
 
+
+// for enolled student details delete function
 const deleteEnrolledStudent = async (req, res) => {
   try {
     const q1 = await enrolledStudent.deleteOne({ _id: req.params.id });

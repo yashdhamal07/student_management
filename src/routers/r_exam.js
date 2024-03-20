@@ -7,7 +7,7 @@ const {
   insertExam,
   updateExam,
   deleteExam,
-} = require("../contoller/exam.js");
+} = require("../controller/exam.js");
 
 const isValidate = [
   body("exam_title").notEmpty().withMessage("Please Enter Exam Title"),

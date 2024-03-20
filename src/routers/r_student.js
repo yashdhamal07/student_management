@@ -4,10 +4,9 @@ const { validationResult, body } = require("express-validator");
 const {
   getStudents,
   getStudent,
-  insertStudent,
   updateStudent,
   deleteStudent,
-} = require("../contoller/student.js");
+} = require("../controller/student.js");
 
 const isValidate = [
   body("student_name").notEmpty().withMessage("Please Enter Student Name"),
@@ -21,14 +20,6 @@ const student = express.Router();
 student.get("/", getStudents);
 student.get("/:id", getStudent);
 
-// post method
-student.post("/", isValidate, (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res?.status(400).json({ errors: errors.array() });
-  }
-  insertStudent(req, res);
-});
 // put methods
 student.put("/:id", isValidate, (req, res) => {
   const errors = validationResult(req);

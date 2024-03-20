@@ -1,7 +1,7 @@
 const { ObjectId } = require("mongodb");
 const exam = require("../models/m_exam");
-// const { FetchUserId, FetchUserRole } = require("./decode_token");
 
+// for get all the exam details function
 const getExams = async (req, res) => {
   try {
     const q1 = await exam.aggregate([
@@ -21,7 +21,12 @@ const getExams = async (req, res) => {
           exam_title: 1,
           subject_name: "$subject.subject_name",
           total_marks: 1,
-          exam_date: 1,
+          exam_date: {
+            $dateToString: {
+              format: "%Y-%m-%d", 
+              date: "$exam_date"
+            }
+          }
         },
       },
     ]);
@@ -31,6 +36,7 @@ const getExams = async (req, res) => {
   }
 };
 
+// for get exam by ID function
 const getExam = async (req, res) => {
   try {
     const Id = req.params.id;
@@ -54,45 +60,48 @@ const getExam = async (req, res) => {
           exam_title: 1,
           subject_name: "$subject.subject_name",
           total_marks: 1,
-          exam_date: 1,
+          exam_date: {
+            $dateToString: {
+              format: "%Y-%m-%d", 
+              date: "$exam_date"
+            }
+          }
         },
       },
     ]);
-
     return res?.status(200).json(q1[0]);
   } catch (err) {
     return res?.status(500).json({ message: err.message });
   }
 };
 
+// for insert new exam function
 const insertExam = async (req, res) => {
   try {
     const userdata = new exam(req?.body);
     await userdata.save();
-    userdata.status = req?.body?.status || 1;
-    // userdata.entry_by = FetchUserId(req?.headers["authorization"]);
-    // userdata.role = FetchUserRole(req?.headers["authorization"]);
-    return res?.status(200).json("Exam Inserted Successfully..!!");
+    return res?.status(200).json("New Exam Inserted Successfully..!!");
   } catch (err) {
     return res?.status(409).json({ message: err.message });
   }
 };
 
+// for update exam details function
 const updateExam = async (req, res) => {
   try {
     const userdata = req?.body;
-    // userdata.update_by = FetchUserId(req?.headers["authorization"]);
-    userdata.update_date = Date.now();
     await exam.updateOne({ _id: req.params.id }, userdata);
-    return res?.status(200).json("Exam Updated Successfully..!!");
+    return res?.status(200).json("Exam Details Updated Successfully..!!");
   } catch (err) {
     return res?.status(500).json({ message: err.message });
   }
 };
 
+
+// for  delete exam details function
 const deleteExam = async (req, res) => {
   try {
-    const q1 = await exam.deleteOne({ _id: req.params.id });
+    await exam.deleteOne({ _id: req.params.id });
     return res?.status(200).json("Exam Deleted Successfully..!!");
   } catch (err) {
     return res?.status(500).json({ message: err.message });

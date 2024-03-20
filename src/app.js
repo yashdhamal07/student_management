@@ -12,20 +12,16 @@ app.use(helmet({ crossOriginResourcePolicy: { policy: "same-site" } }));
 app.use(express.json());
 app.use(cors());
 
-// Rate limiting middleware
+// Rate limiting function and use for stop hacking with help of some fix time calls API
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 10, // limit each IP to 10 requests per windowMs
+  max: 100, // limit each IP to 10 requests per windowMs
   message: "Too Many Requests From This IP, Please Try Again Later..!",
 });
 app.use(limiter);
 
-// app.use("/student",require("./routers/r_student"))
-// app.use("/subject",require("./routers/r_subject"))
-// app.use("/exam",require("./routers/r_exam"))
-// app.use("/result",require("./routers/r_result"))
-// app.use("/enrolledStudent",require("./routers/r_enrolledStudent"))
 app.use("/studentLogin", require("./routers/r_studentLogin"));
+app.use("/studentRegister",require("./routers/r_studentRegister"))
 
 app.use(
   "/",

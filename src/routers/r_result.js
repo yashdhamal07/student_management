@@ -7,7 +7,7 @@ const {
   insertResult,
   updateResult,
   deleteResult,
-} = require("../contoller/result.js");
+} = require("../controller/result.js");
 
 const result = express.Router();
 

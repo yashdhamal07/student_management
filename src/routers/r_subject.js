@@ -7,7 +7,7 @@ const {
   insertSubject,
   updateSubject,
   deleteSubject,
-} = require("../contoller/subject.js");
+} = require("../controller/subject.js");
 
 const isValidate = [
   body("subject_name").notEmpty().withMessage("Please Enter Subject Name"),
