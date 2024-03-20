@@ -1,14 +1,12 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const helmet = require("helmet");
 const path = require("path");
 const { default: rateLimit } = require("express-rate-limit");
 require("../src/helpers/db");
 dotenv.config();
 
 const app = express();
-app.use(helmet({ crossOriginResourcePolicy: { policy: "same-site" } }));
 app.use(express.json());
 app.use(cors());
 
