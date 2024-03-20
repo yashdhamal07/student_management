@@ -1,11 +1,14 @@
 const student = require("../models/m_student");
-// const { FetchUserId, FetchUserRole } = require("./decode_token");
+const logger = require("./logger")
+
 
 const getStudents = async (req,res)=> {
    try {
        const q1 = await student.find()
+       logger.studentManagementLogger.info("Get Student List Successfully..")
         return res?.status(200).json(q1)
    } catch (err) {
+    logger.studentManagementLogger.error("Error For Finding Data Of Students..")
     return res?.status(500).json({message : err.message})
    }
 }
@@ -13,8 +16,10 @@ const getStudents = async (req,res)=> {
 const getStudent = async (req,res)=> {
     try {
         const q1 = await student.findById(req.params.id)
+        logger.studentManagementLogger.info("Get Student Successfully..")
         return res?.status(200).json(q1);
     } catch (err) {
+        logger.studentManagementLogger.error("Error For Finding Data Of Students..")
         return res?.status(500).json({message : err.message})
     }
 }
@@ -24,8 +29,6 @@ const insertStudent = async (req,res)=> {
         const userdata = new student(req?.body)
         await userdata.save();
         userdata.status = req?.body?.status || 1;
-        // userdata.entry_by = FetchUserId(req?.headers["authorization"]);
-        // userdata.role = FetchUserRole(req?.headers["authorization"]);
         return res?.status(200).json("Student Inserted Successfully..!!")
     } catch (err) {
         return res?.status(409).json({message : err.message})

@@ -5,26 +5,26 @@ const exam = require("../models/m_exam");
 const getExams = async (req, res) => {
   try {
     const q1 = await exam.aggregate([
-        {
-          $lookup: {
-            from: "subjects",
-            localField: "subject_id",
-            foreignField: "_id",
-            as: "subject"
-          }
+      {
+        $lookup: {
+          from: "subjects",
+          localField: "subject_id",
+          foreignField: "_id",
+          as: "subject",
         },
-        {
-          $unwind: "$subject"
+      },
+      {
+        $unwind: "$subject",
+      },
+      {
+        $project: {
+          exam_title: 1,
+          subject_name: "$subject.subject_name",
+          total_marks: 1,
+          exam_date: 1,
         },
-        {
-          $project: {
-            "exam_title": 1,
-            "subject_name": "$subject.subject_name",
-            "total_marks": 1,
-            "exam_date": 1
-          }
-        }
-      ])
+      },
+    ]);
     return res?.status(200).json(q1);
   } catch (err) {
     return res?.status(500).json({ message: err.message });
@@ -33,32 +33,32 @@ const getExams = async (req, res) => {
 
 const getExam = async (req, res) => {
   try {
-    const Id = req.params.id
+    const Id = req.params.id;
     const q1 = await exam.aggregate([
-        {
-          $match : { _id : new ObjectId(Id)}
+      {
+        $match: { _id: new ObjectId(Id) },
+      },
+      {
+        $lookup: {
+          from: "subjects",
+          localField: "subject_id",
+          foreignField: "_id",
+          as: "subject",
         },
-        {
-          $lookup: {
-            from: "subjects",
-            localField: "subject_id",
-            foreignField: "_id",
-            as: "subject"
-          }
+      },
+      {
+        $unwind: "$subject",
+      },
+      {
+        $project: {
+          exam_title: 1,
+          subject_name: "$subject.subject_name",
+          total_marks: 1,
+          exam_date: 1,
         },
-        {
-          $unwind: "$subject"
-        },
-        {
-          $project: {
-            "exam_title": 1,
-            "subject_name": "$subject.subject_name",
-            "total_marks": 1,
-            "exam_date": 1
-          }
-        }
-      ])
-      
+      },
+    ]);
+
     return res?.status(200).json(q1[0]);
   } catch (err) {
     return res?.status(500).json({ message: err.message });
